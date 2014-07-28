@@ -15,6 +15,8 @@ beacons_collection = db.beacons
 
 pi_id = "RPi_1"
 
+UDID = "b9407f30f5f8466eaff925556b57fe6d"
+
 dev_id = 0
 try:
 	sock = bluez.hci_open_dev(dev_id)
@@ -29,9 +31,11 @@ blescan.hci_enable_le_scan(sock)
 
 def scan():
     beacons = blescan.parse_events(sock, 10)
-    for beacon in beacons:
+    filtered_beacons = filter(lambda beacon: return beacon["udid"] == UDID, beacons)
+    for beacon in filtered_beacons:
         beacon["pi_id"] = pi_id
         beacon["timestamp"] = datetime.datetime.utcnow()
+        # only update if UDID is estimote
         beacons_collection.update({"pi_id":pi_id, "udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]}, {"$set": beacon}, upsert=True)
     #beacons_collection.insert(beacons)
     threading.Timer(2.0, scan).start()
