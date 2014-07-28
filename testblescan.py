@@ -12,6 +12,8 @@ mongo_client = MongoClient('mongodb://54.77.67.205:27017/')
 db = mongo_client.InnovationLab
 beacons_collection = db.beacons
 
+pi_id = "RPi_1"
+
 dev_id = 0
 try:
 	sock = bluez.hci_open_dev(dev_id)
@@ -27,7 +29,8 @@ blescan.hci_enable_le_scan(sock)
 def scan():
     beacons = blescan.parse_events(sock, 10)
     for beacon in beacons:
-        beacons_collection.remove({"udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]})
+        beacon["pi_id"] = pi_id
+        beacons_collection.remove({"pi_id":pi_id, "udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]})
         beacons_collection.insert(beacon)
     #beacons_collection.insert(beacons)
     threading.Timer(2.0, scan).start()
