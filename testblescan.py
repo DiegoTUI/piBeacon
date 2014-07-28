@@ -26,7 +26,10 @@ blescan.hci_enable_le_scan(sock)
 
 def scan():
     beacons = blescan.parse_events(sock, 10)
-    beacons_collection.insert(beacons)
+    for beacon in beacons:
+        beacons_collection.remove({"udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]})
+        beacons_collection.insert(beacon)
+    #beacons_collection.insert(beacons)
     threading.Timer(2.0, scan).start()
 
 scan()
