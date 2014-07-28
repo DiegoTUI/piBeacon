@@ -3,6 +3,7 @@
 
 import blescan
 import sys
+import threading
 
 import bluetooth._bluetooth as bluez
 
@@ -23,7 +24,10 @@ except:
 blescan.hci_le_set_scan_parameters(sock)
 blescan.hci_enable_le_scan(sock)
 
-while True:
-	beacons = blescan.parse_events(sock, 10)
-	beacons_collection.insert(beacons)
+def scan():
+    beacons = blescan.parse_events(sock, 10)
+    beacons_collection.insert(beacons)
+    threading.Timer(2.0, scan).start()
+
+scan()
 
