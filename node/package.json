@@ -1,0 +1,22 @@
+{
+  "name": "piBeacon",
+  "description": "A simple app to monitor beacons and trigger notifications",
+  "version": "0.0.1",
+  "author": {
+    "name": "Diego Lafuente",
+    "email": "dlafuente@tuitravel-ad.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DiegoTUI/piBeacon.git"
+  },
+  "dependencies": {
+    "request": "2.21.x",
+    "mongodb": "1.4.x",
+    "log":"1.4.x",
+    "async":"0.2.x"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  }
+}
