@@ -150,8 +150,8 @@ def parse_events(sock, loop_count=100):
                         "udid": returnstringpacket(pkt[report_pkt_offset -22: report_pkt_offset - 6]),
                         "major": returnnumberpacket(pkt[report_pkt_offset -6: report_pkt_offset - 4]),
                         "minor": returnnumberpacket(pkt[report_pkt_offset -4: report_pkt_offset - 2]),
-                        "tx": struct.unpack("b", pkt[report_pkt_offset -2]),
-                        "rssi": struct.unpack("b", pkt[report_pkt_offset -1])
+                        "tx": struct.unpack("b", pkt[report_pkt_offset -2])[0],
+                        "rssi": struct.unpack("b", pkt[report_pkt_offset -1])[0]
                     }
                     result.append(beacon)
     sock.setsockopt( bluez.SOL_HCI, bluez.HCI_FILTER, old_filter )
