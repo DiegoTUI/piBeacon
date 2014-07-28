@@ -4,6 +4,7 @@
 import blescan
 import sys
 import threading
+import datetime
 
 import bluetooth._bluetooth as bluez
 
@@ -30,8 +31,8 @@ def scan():
     beacons = blescan.parse_events(sock, 10)
     for beacon in beacons:
         beacon["pi_id"] = pi_id
-        beacons_collection.remove({"pi_id":pi_id, "udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]})
-        beacons_collection.insert(beacon)
+        beacon["timestamp"] = datetime.datetime.utcnow()
+        beacons_collection.update({"pi_id":pi_id, "udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]}, {"$set": beacon}, upsert=True)
     #beacons_collection.insert(beacons)
     threading.Timer(2.0, scan).start()
 
