@@ -20,7 +20,7 @@ MongoClient.connect("mongodb://127.0.0.1:27017/InnovationLab", function(error, d
         beacons_collection.findOne({minor: 513}, function (error, result) {
             if (error || !result) return;
             log.debug ("checking for kid: " + result.rssi);
-            if (result.rssi < -92) {
+            if (result.rssi < -82) {
                 if (!notified) {
                     log.debug("About to notify");
                     notify();
