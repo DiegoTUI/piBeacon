@@ -14,6 +14,7 @@
     "request": "2.21.x",
     "mongodb": "1.4.x",
     "log":"1.4.x",
+    "apn":"1.5.x",
     "async":"0.2.x"
   },
   "engines": {
