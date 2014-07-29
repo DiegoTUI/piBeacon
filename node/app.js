@@ -14,12 +14,12 @@ MongoClient.connect("mongodb://127.0.0.1:27017/InnovationLab", function(error, d
 
     var beacons_collection = db.collection("beacons");
 
-    //setInterval(check, 2000);
+    setInterval(check, 2000);
 
     function check() {
         beacons_collection.findOne({minor: 513}, function (error, result) {
             if (error || !result) return;
-            if (result.rssi < -60) {
+            if (result.rssi < -92) {
                 if (!notified) {
                     log.debug("About to notify");
                     notify();
