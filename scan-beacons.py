@@ -21,7 +21,7 @@ except:
     pi_id = str(uuid.uuid4())
 else:
     if len(pi_id) == 0:
-        pi_id = uuid.uuid4()
+        pi_id = str(uuid.uuid4())
 
 UDID = "b9407f30f5f8466eaff925556b57fe6d"
 
