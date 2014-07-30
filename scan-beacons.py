@@ -19,7 +19,7 @@ beacons_collection = db.beacons
 
 try:
     name_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "name.txt")
-    pi_id = open(name_path).readline()
+    pi_id = open(name_path).readline().rstrip("\n")
 except:
     pi_id = str(uuid.uuid4())
     name_file = open(name_path, 'w+')
