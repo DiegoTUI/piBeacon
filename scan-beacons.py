@@ -19,9 +19,16 @@ try:
     pi_id = open("name.txt").readline()
 except:
     pi_id = str(uuid.uuid4())
+    name_file = open('name.txt', 'w+')
+    name_file.write(pi_id)
+    name_file.close()
 else:
     if len(pi_id) == 0:
         pi_id = str(uuid.uuid4())
+        name_file = open('name.txt', 'w')
+        name_file.write(pi_id)
+        name_file.close()
+
 
 UDID = "b9407f30f5f8466eaff925556b57fe6d"
 
