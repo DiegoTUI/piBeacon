@@ -18,7 +18,7 @@ beacons_collection = db.beacons
 try:
     pi_id = open("name.txt").readline()
 except:
-    pi_id = uuid.uuid4()
+    pi_id = str(uuid.uuid4())
 else:
     if len(pi_id) == 0:
         pi_id = uuid.uuid4()
