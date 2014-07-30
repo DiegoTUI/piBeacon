@@ -5,6 +5,7 @@ import blescan
 import sys
 import threading
 import datetime
+import uuid
 
 import bluetooth._bluetooth as bluez
 
@@ -13,7 +14,14 @@ mongo_client = MongoClient('mongodb://54.77.67.205:27017/')
 db = mongo_client.InnovationLab
 beacons_collection = db.beacons
 
-pi_id = "RPi_1"
+# read pi_id from file assign a random string otherwise
+try:
+    pi_id = open("name.txt").readline()
+except:
+    pi_id = uuid.uuid4()
+else:
+    if len(pi_id) == 0:
+        pi_id = uuid.uuid4()
 
 UDID = "b9407f30f5f8466eaff925556b57fe6d"
 
