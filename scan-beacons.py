@@ -7,6 +7,7 @@ import threading
 import datetime
 import uuid
 import os
+import signal
 
 import bluetooth._bluetooth as bluez
 
@@ -57,5 +58,13 @@ def scan():
     #beacons_collection.insert(beacons)
     threading.Timer(2.0, scan).start()
 
+def on_exit():
+    print "closing database"
+    mongo_client.close()
+
+# assign SIGTERM to on_exit
+signal.signal(signal.SIGTERM, on_exit)
+
+# start scanning
 scan()
 
