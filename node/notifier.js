@@ -21,6 +21,7 @@ var Notifier = function(beaconsCollection) {
     };
 
     function check() {
+        log.debug("checking...");
         beaconsCollection.findOne({minor: 513}, function (error, result) {
             if (error || !result) return;
             var alert = checkTime(result) || checkDistance(result);
