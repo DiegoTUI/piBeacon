@@ -23,13 +23,10 @@ var Notifier = function(beaconsCollection) {
     function check() {
         beaconsCollection.findOne({minor: 513}, function (error, result) {
             if (error || !result) return;
-            var howFar = distance(result.rssi, result.tx);
-            log.debug ("checking for kid: " + howFar);
-            if (howFar > 5) {
-                if (!notified) {
-                    log.debug("About to notify");
-                    notify();
-                }
+            var alert = checkTime(result) || checkDistance(result);
+            var shouldNotify = alert && !notified;
+            if (shouldNotify) {
+                notify();
             }
             else {
                 notified = false;
@@ -37,18 +34,37 @@ var Notifier = function(beaconsCollection) {
         });
     }
 
-    function distance(rssi, tx) {
-        var result = -1;
-        if (rssi !== 0) {
-            var ratio = rssi / tx;
-            if (ratio < 1.0) {
-                result = Math.pow(ratio, 10);
-            }
-            else {
-                result = (0.89976)*Math.pow(ratio,7.7095) + 0.111;
-            }
+    function checkTime(beacon) {
+        now = new Date();
+        timeDifferenceMS = now.getTime() - beacon.timestamp.getTime(); 
+        if (timeDifferenceMS > 5000) {
+            log.debug ("Time alert!!: " + timeDifferenceMS);
+            return true;
         }
-        return result;
+        return false;
+    }
+
+    function checkDistance(beacon) {
+        var howFar = distance(result.rssi, result.tx);
+        if (howFar > 5) {
+            log.debug ("Distance alert!!: " + howFar);
+            return true;
+        }
+        return false;
+
+        function distance(rssi, tx) {
+            var result = -1;
+            if (rssi !== 0) {
+                var ratio = rssi / tx;
+                if (ratio < 1.0) {
+                    result = Math.pow(ratio, 10);
+                }
+                else {
+                    result = (0.89976)*Math.pow(ratio,7.7095) + 0.111;
+                }
+            }
+            return result;
+        }
     }
 
     function notify() {

@@ -2,8 +2,6 @@
 
 // requires
 var MongoClient = require("mongodb").MongoClient;
-var Log = require("log");
-var log = new Log("debug");
 var Notifier = require("./notifier");
 
 // open mongo
