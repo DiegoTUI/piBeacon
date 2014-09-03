@@ -35,7 +35,7 @@ MongoClient.connect("mongodb://127.0.0.1:27017/InnovationLab", function(error, d
 
     function distance(rssi, tx) {
         var result = -1;
-        if (rssi > 0) {
+        if (rssi != 0) {
             var ratio = rssi / tx;
             if (ratio < 1.0) {
                 result = Math.pow(ratio, 10);
