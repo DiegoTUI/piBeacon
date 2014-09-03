@@ -26,10 +26,12 @@ var Notifier = function(beaconsCollection) {
             var alert = checkTime(result) || checkDistance(result);
             var shouldNotify = alert && !notified;
             if (shouldNotify) {
+                log.debug("before notifying: " + notified);
                 notify();
+                log.debug("after notifying: " + notified);
             }
             else {
-                log.debug("No need to notify. Setting notified to false.")
+                log.debug("No need to notify. Setting notified to false.");
                 notified = false;
             }
         });
