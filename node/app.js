@@ -19,8 +19,9 @@ MongoClient.connect("mongodb://127.0.0.1:27017/InnovationLab", function(error, d
     function check() {
         beacons_collection.findOne({minor: 513}, function (error, result) {
             if (error || !result) return;
-            log.debug ("checking for kid: " + result.rssi);
-            if (result.rssi < -82) {
+            var howFar = distance(result.rssi, result.tx);
+            log.debug ("checking for kid: " + howFar);
+            if (howFar > 5) {
                 if (!notified) {
                     log.debug("About to notify");
                     notify();
@@ -30,6 +31,20 @@ MongoClient.connect("mongodb://127.0.0.1:27017/InnovationLab", function(error, d
                 notified = false;
             }
         });
+    }
+
+    function distance(rssi, tx) {
+        var result = -1;
+        if (rssi > 0) {
+            var ratio = rssi / tx;
+            if (ratio < 1.0) {
+                result = Math.pow(ratio, 10);
+            }
+            else {
+                result = (0.89976)*Math.pow(ratio,7.7095) + 0.111;
+            }
+        }
+        return result;
     }
 
     function notify() {
