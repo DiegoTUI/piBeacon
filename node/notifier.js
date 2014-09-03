@@ -35,8 +35,8 @@ var Notifier = function(beaconsCollection) {
     }
 
     function checkTime(beacon) {
-        now = new Date();
-        timeDifferenceMS = now.getTime() - beacon.timestamp.getTime(); 
+        var now = new Date();
+        var timeDifferenceMS = now.getTime() - beacon.timestamp.getTime();
         if (timeDifferenceMS > 5000) {
             log.debug ("Time alert!!: " + timeDifferenceMS);
             return true;
@@ -45,7 +45,7 @@ var Notifier = function(beaconsCollection) {
     }
 
     function checkDistance(beacon) {
-        var howFar = distance(result.rssi, result.tx);
+        var howFar = distance(beacon.rssi, beacon.tx);
         if (howFar > 5) {
             log.debug ("Distance alert!!: " + howFar);
             return true;
