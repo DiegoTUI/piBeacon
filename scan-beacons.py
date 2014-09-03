@@ -50,7 +50,6 @@ blescan.hci_enable_le_scan(sock)
 def scan():
     beacons = blescan.parse_events(sock, 10)
     filtered_beacons = filter(lambda beacon:beacon["udid"] == UDID, beacons)
-    print filtered_beacons
     for beacon in filtered_beacons:
         beacon["pi_id"] = pi_id
         beacon["timestamp"] = datetime.datetime.utcnow()
