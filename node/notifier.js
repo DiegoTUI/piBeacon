@@ -29,6 +29,7 @@ var Notifier = function(beaconsCollection) {
                 notify();
             }
             else {
+                log.debug("No need to notify. Setting notified to false.")
                 notified = false;
             }
         });
