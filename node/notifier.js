@@ -26,6 +26,7 @@ var Notifier = function(beaconsCollection) {
             if (error || !result) return;
             var alert = checkTime(result) || checkDistance(result);
             var shouldNotify = alert && !notified;
+            log.debug("shouldNotify: " + shouldNotify);
             if (shouldNotify) {
                 log.debug("before notifying: " + notified);
                 notify();
