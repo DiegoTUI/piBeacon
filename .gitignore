@@ -2,3 +2,5 @@
 node_modules
 .DS_Store
 name.txt
+safe.json
+danger.json

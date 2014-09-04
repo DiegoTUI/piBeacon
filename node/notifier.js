@@ -3,6 +3,7 @@
 var Log = require("log");
 var log = new Log("debug");
 var apn = require("apn");
+var Location = require("./location.js");
 
 var Notifier = function(beaconsCollection) {
     // self reference
@@ -11,6 +12,11 @@ var Notifier = function(beaconsCollection) {
     var notified = false;
     // id of the interval
     var intervalId;
+    // location object
+    var location = new Location(513, beaconsCollection);
+    // safe and danger
+    var safe = require("./safe.json");
+    var danger = require("./danger.json");
 
     self.start = function() {
         intervalId = setInterval(check, 2000);
@@ -21,12 +27,14 @@ var Notifier = function(beaconsCollection) {
     };
 
     function check() {
-        beaconsCollection.findOne({minor: 513}, function (error, result) {
-            if (error || !result) return;
-            var alert = checkTime(result) || checkDistance(result);
+        location.getClosestPi(function (error, result) {
+            if (error) return;
+            log.debug("closest Pi is: " + result);
+            var alert = (result === null)||(danger.indexOf(result) != -1);
             if (alert) {
                 if (!notified) {
-                    notify();
+                    var message = result === null ? "Your kid died. Go get a new one." : "Your kid just entered the bar."
+                    notify(message);
                 }
             }
             else if (notified){
@@ -35,40 +43,7 @@ var Notifier = function(beaconsCollection) {
         });
     }
 
-    function checkTime(beacon) {
-        var now = new Date();
-        var timeDifferenceMS = now.getTime() - beacon.timestamp.getTime();
-        if (timeDifferenceMS > 10000) {
-            log.debug ("Time alert!!: " + timeDifferenceMS);
-            return true;
-        }
-        return false;
-    }
-
-    function checkDistance(beacon) {
-        var howFar = distance(beacon.rssi, beacon.tx);
-        if (howFar > 10) {
-            log.debug ("Distance alert!!: " + howFar);
-            return true;
-        }
-        return false;
-
-        function distance(rssi, tx) {
-            var result = -1;
-            if (rssi !== 0) {
-                var ratio = rssi / tx;
-                if (ratio < 1.0) {
-                    result = Math.pow(ratio, 10);
-                }
-                else {
-                    result = (0.89976)*Math.pow(ratio,7.7095) + 0.111;
-                }
-            }
-            return result;
-        }
-    }
-
-    function notify() {
+    function notify(message) {
         var options = {};
         var apnConnection = new apn.Connection(options);
         var token = "7e973adab79134fb35587ac35dd8c13b2556530b4382b7934a0ef52dfd499e9c";
@@ -78,15 +53,17 @@ var Notifier = function(beaconsCollection) {
         note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
         note.badge = 0;
         //note.sound = "ping.aiff";
-        note.alert = "Your kid died. Go get a new one.";
+        note.alert = message;
         //note.payload = {'messageFrom': 'Caroline'};
 
         apnConnection.pushNotification(note, myDevice);
 
         notified = true;
 
-        log.debug("Notification sent");
+        log.debug("Notification sent: " message);
     }
+
+    return self;
 };
 
 module.exports = Notifier;
