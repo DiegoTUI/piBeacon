@@ -17,6 +17,8 @@ var Notifier = function(beaconsCollection) {
     // safe and danger
     var safe = require("./safe.json");
     var danger = require("./danger.json");
+    // last closest pi
+    var lastClosestPi = null;
 
     self.start = function() {
         intervalId = setInterval(check, 2000);
@@ -29,7 +31,10 @@ var Notifier = function(beaconsCollection) {
     function check() {
         location.getClosestPi(function (error, result) {
             if (error) return;
-            log.debug("closest Pi is: " + result);
+            if (result != lastClosestPi) {
+                log.debug("closest Pi is: " + result);
+            }
+            lastClosestPi = (result !== null)&&(result != lastClosestPi) ? result : lastClosestPi;
             var alert = (result === null)||(danger.indexOf(result) != -1);
             if (alert) {
                 if (!notified) {
