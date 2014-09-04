@@ -21,19 +21,15 @@ var Notifier = function(beaconsCollection) {
     };
 
     function check() {
-        log.debug("checking...");
         beaconsCollection.findOne({minor: 513}, function (error, result) {
             if (error || !result) return;
             var alert = checkTime(result) || checkDistance(result);
-            var shouldNotify = alert && !notified;
-            log.debug("shouldNotify: " + shouldNotify);
-            if (shouldNotify) {
-                log.debug("before notifying: " + notified);
-                notify();
-                log.debug("after notifying: " + notified);
+            if (alert) {
+                if (!notified) {
+                    notify();
+                }
             }
-            else if (!alert){
-                log.debug("Alert stopped. Setting notified to false.");
+            else if (notified){
                 notified = false;
             }
         });
