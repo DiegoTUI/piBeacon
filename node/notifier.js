@@ -47,7 +47,7 @@ var Notifier = function(beaconsCollection) {
 
     function checkDistance(beacon) {
         var howFar = distance(beacon.rssi, beacon.tx);
-        if (howFar > 5) {
+        if (howFar > 10) {
             log.debug ("Distance alert!!: " + howFar);
             return true;
         }
