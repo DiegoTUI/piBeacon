@@ -32,8 +32,8 @@ var Notifier = function(beaconsCollection) {
                 notify();
                 log.debug("after notifying: " + notified);
             }
-            else {
-                log.debug("No need to notify. Setting notified to false.");
+            else if (!alert){
+                log.debug("Alert stopped. Setting notified to false.");
                 notified = false;
             }
         });
