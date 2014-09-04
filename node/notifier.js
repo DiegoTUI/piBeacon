@@ -60,7 +60,7 @@ var Notifier = function(beaconsCollection) {
 
         notified = true;
 
-        log.debug("Notification sent: " message);
+        log.debug("Notification sent: " + message);
     }
 
     return self;

@@ -6,8 +6,6 @@ var log = new Log("debug");
 var Location = function(beaconsCollection, minor) {
     // self reference
     var self = this;
-    // available RPis
-    var pis = concatenate(require("./safe.json"), require("./danger.json"));
 
     /**
      * Returns the id of the closest pi in the result of the callback.
@@ -16,7 +14,7 @@ var Location = function(beaconsCollection, minor) {
      *   - If there is no signal for any of the registered pis
      *   - If all the signals from registeres pis are too old (older than N seconds to now)
      */
-    self.getClosestPi = function(callback) {}
+    self.getClosestPi = function(callback) {
         beaconsCollection.find({minor: minor}, function (error, cursor) {
             if (error) {
                 return callback(error);
@@ -40,7 +38,7 @@ var Location = function(beaconsCollection, minor) {
             cursor.nextObject(processBeacon);
         });
 
-    }
+    };
 
     function distance(rssi, tx) {
         var result = -1;
