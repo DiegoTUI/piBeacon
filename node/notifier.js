@@ -38,7 +38,7 @@ var Notifier = function(beaconsCollection) {
     function checkTime(beacon) {
         var now = new Date();
         var timeDifferenceMS = now.getTime() - beacon.timestamp.getTime();
-        if (timeDifferenceMS > 5000) {
+        if (timeDifferenceMS > 10000) {
             log.debug ("Time alert!!: " + timeDifferenceMS);
             return true;
         }
