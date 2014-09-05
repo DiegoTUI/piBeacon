@@ -15,7 +15,7 @@ var Notifier = function(beaconsCollection) {
     // location object
     var location = new Location(beaconsCollection, 513);
     // safe and danger
-    var safe = require("./safe.json");
+    //var safe = require("./safe.json");
     var danger = require("./danger.json");
     // last closest pi
     var lastClosestPi = null;
@@ -34,11 +34,11 @@ var Notifier = function(beaconsCollection) {
             if (result != lastClosestPi) {
                 log.debug("closest Pi is: " + result);
             }
-            lastClosestPi = (result !== null)&&(result != lastClosestPi) ? result : lastClosestPi;
+            lastClosestPi = result;
             var alert = (result === null)||(danger.indexOf(result) != -1);
             if (alert) {
                 if (!notified) {
-                    var message = result === null ? "Your kid died. Go get a new one." : "Your kid just entered the bar."
+                    var message = result === null ? "Your kid died. Go get a new one." : "Your kid just entered the bar.";
                     notify(message);
                 }
             }
