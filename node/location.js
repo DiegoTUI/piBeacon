@@ -28,8 +28,10 @@ var Location = function(beaconsCollection, minor) {
                     return callback(null, result);
                 }
                 var howFar = distance(beacon.rssi, beacon.tx);
+                log.debug("howFar " + beacon.pi_id + ": " + howFar);
                 var now = new Date();
                 var howLongAgo = now.getTime() - beacon.timestamp.getTime();
+                log.debug("howLongAgo " + beacon.pi_id + ": " + howLongAgo);
                 result = (howFar < minimumDistance)&&( howLongAgo < 10000 ) ? beacon.pi_id : result;
 
                 cursor.nextObject(processBeacon);
