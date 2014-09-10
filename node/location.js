@@ -21,6 +21,7 @@ var Location = function(beaconsCollection, minor) {
             }
 
             var result = null;
+            log.debug("******** result set to null *********");
             var minimumDistance = 99999999999;
 
             function processBeacon(error, beacon) {
