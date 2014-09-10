@@ -33,6 +33,7 @@ var Location = function(beaconsCollection, minor) {
                 var howLongAgo = now.getTime() - beacon.timestamp.getTime();
                 log.debug("howLongAgo " + beacon.pi_id + ": " + howLongAgo);
                 result = (howFar < minimumDistance)&&( howLongAgo < 10000 ) ? beacon.pi_id : result;
+                log.debug("result: " + result);
 
                 cursor.nextObject(processBeacon);
             }
