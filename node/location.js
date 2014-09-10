@@ -21,7 +21,7 @@ var Location = function(beaconsCollection, minor) {
             }
 
             var result = null;
-            log.debug("******** result set to null *********");
+            //log.debug("******** result set to null *********");
             var minimumDistance = 99999999999;
 
             function processBeacon(error, beacon) {
@@ -29,15 +29,15 @@ var Location = function(beaconsCollection, minor) {
                     return callback(null, result);
                 }
                 var howFar = distance(beacon.rssi, beacon.tx);
-                log.debug("howFar " + beacon.pi_id + ": " + howFar);
+                //log.debug("howFar " + beacon.pi_id + ": " + howFar);
                 var now = new Date();
                 var howLongAgo = now.getTime() - beacon.timestamp.getTime();
-                log.debug("howLongAgo " + beacon.pi_id + ": " + howLongAgo);
+                //log.debug("howLongAgo " + beacon.pi_id + ": " + howLongAgo);
                 if ((howFar < minimumDistance)&&( howLongAgo < 10000 )) {
                     result = beacon.pi_id;
                     minimumDistance = howFar;
                 }
-                log.debug("result: " + result);
+                //log.debug("result: " + result);
 
                 cursor.nextObject(processBeacon);
             }
