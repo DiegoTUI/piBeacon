@@ -34,7 +34,7 @@ else:
         name_file.close()
 
 UDID_estimote = "b9407f30f5f8466eaff925556b57fe6d"
-UDID_guardian = "69FB532E-688E-162E-1B65-E23D3112902F"
+UDID_guardian = "01060303d71a03194004070931323233"
 # pick from estimote, guardian, etc..
 UDID = UDID_guardian;
 
