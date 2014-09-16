@@ -52,6 +52,7 @@ update_database_period = 2.0
 beacons_to_send = []
 
 def scan():
+    global beacons_to_send
     beacons = blescan.parse_events(sock, 10)
     filtered_beacons = filter(lambda beacon:beacon["udid"] == UDID, beacons)
     print "scanned {0} beacons".format(len(filtered_beacons))
@@ -70,6 +71,7 @@ def scan():
     threading.Timer(scan_period, scan).start()
 
 def update_database():
+    global beacons_to_send
     print "updating database with {0} beacons".format(len(beacons_to_send))
     # clone the array of beacons to send and reset beacons_to_send
     cloned_beacons_to_send = beacons_to_send[:]
