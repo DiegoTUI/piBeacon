@@ -64,10 +64,6 @@ def scan():
         candidate = filter(lambda beacon_to_update:beacon_to_update["minor"] == beacon["minor"], beacons_to_send)
         if len(candidate) > 0:
             beacons_to_send[beacons_to_send.index(candidate[0])] = beacon;
-
-        # only update if UDID is estimote
-        beacons_collection.update({"pi_id":pi_id, "udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]}, {"$set": beacon}, upsert=True)
-    #beacons_collection.insert(beacons)
     threading.Timer(scan_period, scan).start()
 
 def update_database():
