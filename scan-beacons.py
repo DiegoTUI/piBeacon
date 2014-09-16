@@ -55,7 +55,7 @@ def scan():
     global beacons_to_send
     beacons = blescan.parse_events(sock, 10)
     filtered_beacons = filter(lambda beacon:beacon["udid"] == UDID, beacons)
-    print "scanned {0} beacons".format(len(filtered_beacons))
+    # print "scanned {0} beacons".format(len(filtered_beacons))
     for beacon in filtered_beacons:
         # update pi_id and timestamp
         beacon["pi_id"] = pi_id
@@ -70,7 +70,7 @@ def scan():
 
 def update_database():
     global beacons_to_send
-    print "updating database with {0} beacons".format(len(beacons_to_send))
+    # print "updating database with {0} beacons".format(len(beacons_to_send))
     # clone the array of beacons to send and reset beacons_to_send
     cloned_beacons_to_send = beacons_to_send[:]
     beacons_to_send = [];
