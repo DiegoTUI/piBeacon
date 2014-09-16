@@ -62,7 +62,9 @@ def scan():
         beacon["timestamp"] = datetime.datetime.utcnow()
         # update beacons_to_send
         candidate = filter(lambda beacon_to_update:beacon_to_update["minor"] == beacon["minor"], beacons_to_send)
-        if len(candidate) > 0:
+        if len(candidate) == 0:
+            beacons_to_send.append(beacon)
+        else:
             beacons_to_send[beacons_to_send.index(candidate[0])] = beacon;
     threading.Timer(scan_period, scan).start()
 
