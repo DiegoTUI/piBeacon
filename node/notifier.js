@@ -13,7 +13,7 @@ var Notifier = function(beaconsCollection) {
     // id of the interval
     var intervalId;
     // location object
-    var location = new Location(beaconsCollection, 513);
+    var location = new Location(beaconsCollection, 767);
     // safe and danger
     //var safe = require("./safe.json");
     var danger = require("./danger.json");
