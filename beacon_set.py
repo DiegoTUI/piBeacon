@@ -40,5 +40,6 @@ class BeaconSet(object):
                 candidate["rssi"] = (candidate["rssi"] * candidate["count"] + beacon["rssi"]) / (candidate["count"] + 1)
                 candidate["count"] = candidate["count"] + 1
                 candidate["timestamp"] = datetime.datetime.utcnow()
+        return result
 
 
