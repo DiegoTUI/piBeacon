@@ -38,7 +38,7 @@ class BeaconSet(object):
                 result.append(beacon)
             else:
                 candidate = result[result.index(candidate[0])]
-                candidate["rssi"] = (candidate["rssi"] * candidate["count"] + beacon["rssi"]) / (candidate["count"] + 1)
+                candidate["rssi"] = 1.0 * (candidate["rssi"] * candidate["count"] + beacon["rssi"]) / (candidate["count"] + 1)
                 candidate["count"] = candidate["count"] + 1
                 if beacon["timestamp"] > candidate["timestamp"]:
                     candidate["timestamp"] = beacon["timestamp"]
