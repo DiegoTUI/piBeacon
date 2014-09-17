@@ -28,7 +28,7 @@ class BeaconSet(object):
             # check if it's too old. Remove if too old
             now = datetime.datetime.utcnow()
             if (now - beacon["timestamp"]).total_seconds() > self.buffer_age:
-                self.beacon_set_clone.remove(beacon)
+                self.beacon_set.remove(beacon)
                 continue
             # valid beacon, insert into result
             candidate = filter(lambda final_beacon:final_beacon["major"] == beacon["major"] and final_beacon["minor"] == beacon["minor"], result)
