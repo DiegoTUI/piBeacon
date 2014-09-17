@@ -8,6 +8,7 @@ import datetime
 import uuid
 import os
 import signal
+from beacon_set import BeaconSet
 import bluetooth._bluetooth as bluez
 
 # init db
@@ -49,10 +50,10 @@ UDID_guardian = "01060303d71a03194004070931323233"
 UDID = UDID_guardian;
 scan_period = 0.1
 update_database_period = 2.0
-beacons_to_send = []
+beacon_set = BeaconSet()
 
 def scan():
-    global beacons_to_send
+    global beacon_set
     beacons = blescan.parse_events(sock, 10)
     filtered_beacons = filter(lambda beacon:beacon["udid"] == UDID, beacons)
     # print "scanned {0} beacons".format(len(filtered_beacons))
@@ -60,21 +61,15 @@ def scan():
         # update pi_id and timestamp
         beacon["pi_id"] = pi_id
         beacon["timestamp"] = datetime.datetime.utcnow()
-        # update beacons_to_send
-        candidate = filter(lambda beacon_to_update:beacon_to_update["minor"] == beacon["minor"], beacons_to_send)
-        if len(candidate) == 0:
-            beacons_to_send.append(beacon)
-        else:
-            beacons_to_send[beacons_to_send.index(candidate[0])] = beacon;
+    beacon_set.addBeacons(filtered_beacons)
     threading.Timer(scan_period, scan).start()
 
 def update_database():
-    global beacons_to_send
+    global beacon_set
     # print "updating database with {0} beacons".format(len(beacons_to_send))
     # clone the array of beacons to send and reset beacons_to_send
-    cloned_beacons_to_send = beacons_to_send[:]
-    beacons_to_send = [];
-    for beacon in cloned_beacons_to_send:
+    beacons_to_send = beacon_set.getBeacons();
+    for beacon in beacons_to_send:
         beacons_collection.update({"pi_id":pi_id, "udid":beacon["udid"], "major":beacon["major"], "minor":beacon["minor"]}, {"$set": beacon}, upsert=True)
     threading.Timer(update_database_period, update_database).start()
 
