@@ -12,7 +12,7 @@ class BeaconSet(object):
         "Inits the BeaconSet with an empty set."
         "Inits the buffer age (seconds)"
         "Starts the garbage collector script."
-        self.beacon_set = {}
+        self.beacon_set = []
         self.buffer_age = 20.0
 
     def addBeacons(self, beacons):
