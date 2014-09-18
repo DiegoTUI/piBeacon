@@ -48,6 +48,9 @@ else:
 UDID_estimote = "b9407f30f5f8466eaff925556b57fe6d"
 UDID_guardian = "01060303d71a03194004070931323233"
 UDID = UDID_guardian;
+# read sys.argv. If sys.argv[1] is "estimote", change to estimote beacons.
+if len(sys.argv) > 1 and sys.argv[1] == "estimote":
+    UDID = UDID_estimote
 scan_period = 0.1
 update_database_period = 2.0
 beacon_set = BeaconSet()
